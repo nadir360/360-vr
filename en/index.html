@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>360 Virtual Tour - Yachts, Hotels, Restaurants</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#0f172a;overflow-x:hidden}
+body.menu-open{overflow:hidden}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid #eef2f7;background:#fff;position:sticky;top:0;z-index:100}
+.logo{font-weight:800;font-size:20px;white-space:nowrap}
+.menu{display:flex;gap:18px;color:#64748b;font-size:15px;align-items:center}
+.menu a{color:inherit;text-decoration:none}
+.btn-blue{background:#0eb5d3;color:#fff;padding:10px 22px;border-radius:10px;font-weight:700;text-decoration:none;display:inline-block;white-space:nowrap}
+.hero{display:grid;grid-template-columns:1.1fr 0.9fr;gap:40px;max-width:1200px;margin:0 auto;padding:40px 20px;align-items:center}
+.badge{display:inline-block;background:#0eb5d3;color:#fff;padding:6px 14px;border-radius:20px;font-size:11px;font-weight:800;margin-bottom:16px}
+.hero h1{font-size:42px;line-height:1.05;font-weight:800;margin-bottom:16px}
+.hero p{color:#475569;font-size:16px;margin-bottom:22px;line-height:1.5}
+.yacht-box{width:100%;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.15);background:#e0f2fe}
+.yacht-box img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.pricing-head{text-align:center;padding:30px 20px 10px}
+.pricing{max-width:1200px;margin:0 auto;padding:20px 20px 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{border:2px solid #e2e8f0;border-radius:16px;padding:28px 22px;background:#fff;position:relative}
+.card.featured{border-color:#0eb5d3;transform:translateY(-6px);box-shadow:0 20px 40px rgba(14,181,211,0.18)}
+.top-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#0eb5d3;color:#fff;padding:5px 14px;border-radius:12px;font-size:10px;font-weight:800;white-space:nowrap}
+.card-price{font-size:44px;font-weight:800;text-align:center}
+.card-title{text-align:center;font-size:18px;font-weight:700;color:#0eb5d3}
+.card-sub{text-align:center;font-size:14px;font-weight:600;margin:10px 0 14px}
+.card ul{list-style:none;font-size:14px;line-height:2;color:#334155;margin-bottom:18px}
+.card-btn{width:100%;padding:12px;border-radius:10px;border:1px solid #0eb5d3;background:#fff;color:#0eb5d3;font-weight:700;cursor:pointer}
+.card.featured .card-btn{background:#0eb5d3;color:#fff}
+.section{max-width:1000px;margin:60px auto;padding:0 20px}
+.section h2{font-size:28px;font-weight:800;margin-bottom:14px}
+.section p{color:#475569;line-height:1.7}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);max-width:900px;margin:50px auto;padding:24px;background:#eaf6f8;text-align:center;border-radius:12px}
+.footer{text-align:center;padding:40px 20px;color:#94a3b8;font-size:12px;border-top:1px solid #f1f5f9;margin-top:40px}
+.dropdown{position:relative;display:inline-block}
+.dropbtn{color:#64748b;text-decoration:none;font-weight:500;cursor:pointer;padding:8px 4px;background:none;border:none;font-size:15px;font-family:inherit}
+.dropbtn:hover{color:#0eb5d3}
+.dropdown-content{display:none;position:absolute;top:100%;left:0;background:#fff;min-width:280px;box-shadow:0 10px 40px rgba(0,0,0,0.12);border-radius:12px;border:1px solid #eef2f7;padding:10px;z-index:30}
+.dropdown:hover .dropdown-content{display:block}
+.dropdown-content a{display:block;padding:10px 12px;color:#334155;text-decoration:none;font-size:13px;border-radius:8px;line-height:1.4}
+.dropdown-content a:hover{background:#f8fafc;color:#0eb5d3}
+.dropdown-content a strong{display:block;font-size:14px;color:#0f172a;margin-bottom:2px}
+.dropdown-content span{font-size:12px;color:#64748b}
+.lang{display:flex;gap:6px;margin-left:10px}
+.lang a{padding:2px 6px;border:1px solid #e2e8f0;border-radius:6px;opacity:.6;text-decoration:none;font-size:18px}
+.lang a.active{opacity:1;border-color:#0eb5d3;background:#f0fbfe}
+.hamburger{display:none;font-size:28px;cursor:pointer;padding:5px 10px;line-height:1;user-select:none;background:none;border:none}
+@media(max-width:900px){
+.hero{grid-template-columns:1fr;padding:30px 16px;gap:24px}
+.hero h1{font-size:30px;line-height:1.15}
+.yacht-box{height:auto;aspect-ratio:16/9}
+.yacht-box img{height:100%}
+.pricing{grid-template-columns:1fr}
+.hamburger{display:block}
+.menu{display:none;position:fixed;top:60px;left:0;right:0;bottom:0;background:#fff;flex-direction:column;align-items:stretch;padding:10px 20px 40px;gap:0;overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:99}
+.menu.open{display:flex}
+.menu .dropdown{width:100%;border-bottom:1px solid #f1f5f9;display:block}
+.menu .dropdown .dropbtn{display:flex;justify-content:space-between;align-items:center;width:100%;padding:16px 0;font-size:17px;color:#0f172a;font-weight:600;text-align:left}
+.menu .dropdown:hover .dropdown-content{display:none}
+.menu .dropdown.open .dropdown-content{display:block}
+.menu .dropdown-content{position:static;display:none;box-shadow:none;border:none;padding:0 0 10px 0;min-width:auto;background:#f8fafc;border-radius:10px;margin-bottom:12px}
+.menu .dropdown-content a{padding:12px 14px;background:#fff;margin:6px;border:1px solid #eef2f7}
+.menu .btn-blue{margin-top:18px;width:100%;text-align:center;padding:14px}
+.menu .lang{margin:16px 0 0 0;justify-content:center}
+.stats{grid-template-columns:1fr;gap:16px;margin:30px 16px}
+.section iframe{height:400px !important}
+}
+@media(max-width:480px){
+.hero h1{font-size:26px}
+.yacht-box{aspect-ratio:4/3}
+.logo{font-size:18px}
+}
+@media(orientation:landscape) and (max-width:900px){
+.yacht-box{aspect-ratio:16/8;max-height:320px}
+.hero{grid-template-columns:1fr 1fr;gap:20px}
+.hero h1{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="nav">
+<div class="logo">🧭 360 Yacht Media</div>
+<button class="hamburger" id="hamburgerBtn" aria-label="Menu">☰</button>
+<div class="menu" id="mobileMenu">
+<div class="dropdown">
+<button class="dropbtn" type="button">Services <span>▾</span></button>
+<div class="dropdown-content">
+<a href="#services"><strong>360° Virtual Tours</strong><span>Yachts, hotels, motels, restaurants, apartments</span></a>
+<a href="#services"><strong>Shareable link</strong><span>For Booking, website, social media</span></a>
+<a href="#services"><strong>Delivery 24-48h</strong><span>Fast processing and delivery</span></a>
+</div>
+</div>
+<div class="dropdown">
+<button class="dropbtn" type="button">Examples <span>▾</span></button>
+<div class="dropdown-content">
+<a href="#marshall"><strong>🛥️ Marshall</strong><span>Yacht example</span></a>
+<a href="#stella"><strong>🛥️ Stella Maris</strong><span>Yacht example</span></a>
+</div>
+</div>
+<div class="dropdown">
+<button class="dropbtn" type="button">Pricing <span>▾</span></button>
+<div class="dropdown-content">
+<a href="#pricing"><strong>Start — €600</strong><span>Up to 10 positions</span></a>
+<a href="#pricing"><strong>Pro — €900</strong><span>Up to 20 positions</span></a>
+<a href="#pricing"><strong>Admiral — €1200</strong><span>Up to 30+ positions</span></a>
+</div>
+</div>
+<div class="dropdown">
+<button class="dropbtn" type="button">About <span>▾</span></button>
+<div class="dropdown-content">
+<a href="#about"><strong>Who we are</strong><span>Specialized team for 360° virtual tours</span></a>
+<a href="#about"><strong>1000+ tours</strong><span>Yachts, hotels, motels, restaurants, villas</span></a>
+<a href="#about"><strong>+40% more bookings</strong><span>Results of our clients</span></a>
+</div>
+</div>
+<div class="dropdown">
+<button class="dropbtn" type="button">Contact <span>▾</span></button>
+<div class="dropdown-content">
+<a href="https://wa.me/38762349149"><strong>Write on WhatsApp</strong><span>+387 62 349 149 WhatsApp</span></a>
+<a href="tel:+385923659855"><strong>Call</strong><span>+385 92 365 9855</span></a>
+<a href="mailto:nadir.c@gmail.com"><strong>Email</strong><span>nadir.c@gmail.com</span></a>
+</div>
+</div>
+<div class="lang"><a href="../index.html">🇭🇷</a><a href="index.html" class="active">🇬🇧</a></div>
+<a class="btn-blue" href="https://wa.me/38762349149?text=Hello,%20I%20want%20to%20book%20a%20360°%20tour">Book Now</a>
+</div>
+</div>
+
+<div class="hero">
+<div>
+<div class="badge">360° VIRTUAL TOUR</div>
+<h1>Fill Your Calendar with 360° Virtual Tour</h1>
+<p>Professional 360° virtual tour for yachts, hotels, motels, restaurants, apartments, villas, salons, car dealers and all types of properties. Show every corner, attract more guests and fill your calendar faster. We come to your location.</p>
+<div style="display:flex;gap:12px;margin-bottom:18px;flex-wrap:wrap">
+<a class="btn-blue" href="https://wa.me/38762349149?text=Hello,%20I%20want%20to%20book%20a%20360°%20tour">📅 Book a slot</a>
+<a href="#examples" style="background:#fff;border:1px solid #cbd5e1;padding:12px 20px;border-radius:10px;font-weight:600;text-decoration:none;color:#0f172a">See 360° example ▶</a>
+</div>
+<div style="font-size:13px;color:#475569;line-height:1.8">✓ More inquiries and bookings<br>✓ For yachts, hotels, motels, restaurants, apartments, villas<br>✓ Delivery in 24-48h</div>
+</div>
+<div class="yacht-box">
+<img src="https://images.pexels.com/photos/163236/luxury-yacht-boat-speed-water-163236.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Luxury yacht on sea - 360 Virtual Tour">
+</div>
+</div>
+
+<div id="pricing" class="pricing-head">
+<h2>Simple pricing, clear result</h2>
+<p>All includes 360° virtual tour + shareable link. For yachts, hotels, motels, restaurants and other properties. One-time.</p>
+</div>
+
+<div class="pricing">
+<div class="card">
+<div class="card-price">€600</div><div class="card-title">Start</div><div class="card-sub">Up to 10 positions</div>
+<ul><li>✓ 360° Virtual Tour</li><li>✓ Shareable link</li><li>✓ For all properties</li></ul>
+<button class="card-btn" onclick="window.open('https://wa.me/38762349149?text=Hello,%20I%20want%20START%20600€')">Choose Start</button>
+</div>
+<div class="card featured">
+<div class="top-badge">MOST POPULAR</div>
+<div class="card-price">€900</div><div class="card-title">Pro</div><div class="card-sub">Up to 20 positions</div>
+<ul><li>✓ 360° Virtual Tour</li><li>✓ Shareable link</li><li>✓ For all properties</li></ul>
+<button class="card-btn" onclick="window.open('https://wa.me/38762349149?text=Hello,%20I%20want%20PRO%20900€')">Choose Pro</button>
+</div>
+<div class="card">
+<div class="card-price">€1200</div><div class="card-title">Admiral</div><div class="card-sub">Up to 30+ positions</div>
+<ul><li>✓ 360° Virtual Tour</li><li>✓ Shareable link</li><li>✓ For all properties</li></ul>
+<button class="card-btn" onclick="window.open('https://wa.me/38762349149?text=Hello,%20I%20want%20ADMIRAL%201200€')">Choose Admiral</button>
+</div>
+</div>
+
+<div id="examples" class="section">
+<h2>Examples - Marshall & Stella Maris</h2>
+<h3 id="marshall" style="margin:20px 0 10px;font-size:20px">🛥️ Marshall</h3>
+<div style="width:100%;height:600px;border-radius:16px;overflow:hidden;margin:15px 0;border:1px solid #e2e8f0"><iframe src="../marshall/index.html" width="100%" height="100%" frameborder="0" allowfullscreen></iframe></div>
+<h3 id="stella" style="margin:30px 0 10px;font-size:20px">🛥️ Stella Maris</h3>
+<div style="width:100%;height:600px;border-radius:16px;overflow:hidden;margin:15px 0;border:1px solid #e2e8f0"><iframe src="../stella/index.html" width="100%" height="100%" frameborder="0" allowfullscreen></iframe></div>
+</div>
+
+<div id="services" class="section"><h2>Services</h2><p>Professional 360° virtual tour for all types of properties - yachts, hotels, motels, restaurants, apartments, villas, beauty salons, gyms, car dealerships, flats, houses and business premises. We shoot every corner with top equipment. You get a ready 360° virtual tour + shareable link that you can add to Booking, Airbnb, website and social media. Delivery 24-48h. We come to your location.</p></div>
+
+<div id="about" class="section"><h2>About us</h2><p>Specialized team for creating 360° virtual tours. We have delivered 1000+ 360° virtual tours for clients in different industries - yachts, hotels, motels, restaurants, apartments, villas, salons, gyms, car dealerships and many other properties. Our clients record on average 40% more inquiries and 25% higher CTR on ads after publishing a 360° virtual tour.</p></div>
+
+<div id="contact" class="section"><h2>Contact</h2><p>Email: nadir.c@gmail.com<br>+385 92 365 9855<br>+387 62 349 149 WhatsApp<br><br><a class="btn-blue" href="https://wa.me/38762349149?text=Hello,%20I%20want%20info%20about%20360°%20virtual%20tour">Write on WhatsApp</a> <a href="tel:+385923659855" style="margin-left:10px;color:#0eb5d3;font-weight:700;text-decoration:none">Call</a></p></div>
+
+<div class="stats"><div><b>📈 +40%</b><br><span style="font-size:13px;color:#475569">More inquiries</span></div><div><b>◎ +25%</b><br><span style="font-size:13px;color:#475569">Higher CTR on ads</span></div><div><b>1000+</b><br><span style="font-size:13px;color:#475569">Virtual tours</span></div></div>
+
+<div class="footer">© 2024 360 Yacht Media • +385 92 365 9855 • +387 62 349 149 
+<a href="https://wa.me/38762349149" target="_blank" style="text-decoration:none;vertical-align:middle;margin:0 4px"><svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366" style="vertical-align:middle"><path d="M19.05 4.91A9.82 9.82 0 0 0 12.04 2C6.58 2 2.14 6.44 2.14 11.9c0 1.75.46 3.45 1.33 4.95L2 22l5.26-1.38a9.82 9.82 0 0 0 4.78 1.22h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.65-1.03-5.14-2.9-7.03zM12.05 19.86h-.01a8.19 8.19 0 0 1-4.18-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.23 8.23 0 0 1-1.26-4.1c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.41a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.7 8.23-8.23 8.23z"/></svg></a>
+ - <a href="mailto:nadir.c@gmail.com" style="color:#94a3b8;text-decoration:none">nadir.c@gmail.com</a><br>Yachts • Hotels • Motels • Restaurants • Apartments • Villas • Salons • Car dealers</div>
+
+<script>
+const btn = document.getElementById('hamburgerBtn');
+const menu = document.getElementById('mobileMenu');
+btn.addEventListener('click', () => {
+  const isOpen = menu.classList.toggle('open');
+  document.body.classList.toggle('menu-open', isOpen);
+  btn.textContent = isOpen ? '✕' : '☰';
+});
+document.querySelectorAll('.menu .dropdown .dropbtn').forEach(b => {
+  b.addEventListener('click', (e) => {
+    if(window.innerWidth <= 900){
+      e.preventDefault();
+      const parent = b.closest('.dropdown');
+      const wasOpen = parent.classList.contains('open');
+      document.querySelectorAll('.menu .dropdown').forEach(d => d.classList.remove('open'));
+      if(!wasOpen) parent.classList.add('open');
+    }
+  });
+});
+document.querySelectorAll('.menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    menu.classList.remove('open');
+    document.body.classList.remove('menu-open');
+    btn.textContent = '☰';
+  });
+});
+</script>
+</body>
+</html>
