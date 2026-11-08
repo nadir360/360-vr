@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://360-yacht-media.pages.dev/</loc><priority>1.0</priority></url>
-  <url><loc>https://360-yacht-media.pages.dev/en/</loc><priority>0.8</priority></url>
-  <url><loc>https://360-yacht-media.pages.dev/marshall/</loc><priority>0.8</priority></url>
-  <url><loc>https://360-yacht-media.pages.dev/stella/</loc><priority>0.8</priority></url>
+  <url>
+    <loc>https://360-yacht-media.pages.dev/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://360-yacht-media.pages.dev/en/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://360-yacht-media.pages.dev/marshall/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://360-yacht-media.pages.dev/stella/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
