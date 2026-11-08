@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://360-yacht-media.pages.dev/sitemap.xml
